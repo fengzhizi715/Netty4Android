@@ -11,7 +11,7 @@ import io.netty.util.CharsetUtil
 /**
  *
  * @FileName:
- *          com.aihuishou.creative.netty4android.server.NettyServerInitializer
+ *          com.safframework.netty4android.server.NettyServerInitializer
  * @author: Tony Shen
  * @date: 2019-08-06 15:51
  * @version: V1.0 <描述当前版本功能>
