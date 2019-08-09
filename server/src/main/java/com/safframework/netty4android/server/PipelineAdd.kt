@@ -18,7 +18,7 @@ import io.netty.channel.ChannelHandlerContext
  */
 object PipelineAdd {
 
-    fun websocketAdd(ctx: ChannelHandlerContext) {
+    fun websocketAdd(ctx: ChannelHandlerContext, webSocketPath:String = "/ws") {
 
         println("PipelineAdd")
         // HttpServerCodec：将请求和应答消息解码为HTTP消息
@@ -33,7 +33,7 @@ object PipelineAdd {
         ctx.pipeline().addBefore("commonhandler", "WebSocketAggregator", WebSocketFrameAggregator(65535))
 
         //用于处理websocket, /ws为访问websocket时的uri
-        ctx.pipeline().addBefore("commonhandler", "ProtocolHandler", WebSocketServerProtocolHandler("/ws"))
+        ctx.pipeline().addBefore("commonhandler", "ProtocolHandler", WebSocketServerProtocolHandler(webSocketPath))
 
     }
 }

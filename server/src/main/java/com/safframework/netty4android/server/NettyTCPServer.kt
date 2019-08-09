@@ -19,7 +19,7 @@ import java.net.InetSocketAddress
  * @date: 2019-08-05 18:04
  * @version: V1.0 <描述当前版本功能>
  */
-object NettyTcpServer  {
+object NettyTcpServer {
 
     private val TAG = "NettyTcpServer"
 
@@ -28,7 +28,10 @@ object NettyTcpServer  {
     private lateinit var bossGroup: EventLoopGroup
     private lateinit var workerGroup: EventLoopGroup
 
-    private val port = 1088
+    private var port = 8888
+        set(value)  {
+            field = value
+        }
 
     var isServerStart: Boolean = false
         private set
