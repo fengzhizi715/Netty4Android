@@ -9,6 +9,7 @@ package com.safframework.netty4android.ui
  * @version: V1.0 <描述当前版本功能>
  */
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -37,6 +38,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
     var clientChanelArray: MutableList<ClientChanel> = mutableListOf()  //储存客户端通道信息
     private lateinit var spinnerAdapter: CustomSpinnerAdapter
 
+    private var port:Int = 8888
+    private var webSocketPath:String = "/ws"
+
+    private val REQUEST_CODE_CONFIG:Int = 1000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -56,6 +62,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
 
     private fun initlisteners() {
 
+        configServer.setOnClickListener(this)
         startServer.setOnClickListener(this)
         send_tcp_btn.setOnClickListener(this)
         send_ws_btn.setOnClickListener(this)
@@ -84,27 +91,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
 
         when (v.id) {
 
+            R.id.configServer -> configServer()
+
             R.id.startServer -> startServer()
 
-            R.id.send_tcp_btn -> if (!NettyServer.isServerStart) {
+            R.id.send_tcp_btn -> {
 
-                Toast.makeText(applicationContext, "未连接,请先连接", LENGTH_SHORT).show()
-            } else {
-                val msg = send_tcp_et.text.toString()
-                if (TextUtils.isEmpty(msg.trim { it <= ' ' })) {
-                    return
-                }
+                if (!NettyServer.isServerStart) {
 
-                NettyServer.sendMsgToClient(msg, ChannelFutureListener { channelFuture ->
-
-                    if (channelFuture.isSuccess) {
-                        Log.d(TAG, "Write auth successful")
-                        msgSend(msg)
-                    } else {
-                        Log.d(TAG, "Write auth error")
+                    Toast.makeText(applicationContext, "未连接,请先连接", LENGTH_SHORT).show()
+                } else {
+                    val msg = send_tcp_et.text.toString()
+                    if (TextUtils.isEmpty(msg.trim { it <= ' ' })) {
+                        return
                     }
-                })
-                send_tcp_et.setText("")
+
+                    NettyServer.sendMsgToClient(msg, ChannelFutureListener { channelFuture ->
+
+                        if (channelFuture.isSuccess) {
+                            Log.d(TAG, "Write auth successful")
+                            msgSend(msg)
+                        } else {
+                            Log.d(TAG, "Write auth error")
+                        }
+                    })
+                    send_tcp_et.setText("")
+                }
             }
 
             R.id.send_ws_btn -> {
@@ -143,15 +155,36 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
         }
     }
 
+    private fun configServer() {
+
+        val intent = Intent(this@MainActivity,ConfigServerActivity::class.java)
+        startActivityForResult(intent,REQUEST_CODE_CONFIG)
+    }
+
     private fun startServer() {
 
         if (!NettyServer.isServerStart) {
             NettyServer.setListener(this@MainActivity)
+            NettyServer.port = port
+            NettyServer.webSocketPath = webSocketPath
             NettyServer.start()
         } else {
             NettyServer.disconnect()
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_CONFIG && data!=null) {
+
+            port = data.getStringExtra("port").toInt()
+            webSocketPath = data.getStringExtra("webSocketPath")?:"/ws"
+
+            Log.i(TAG,"port=$port, webSocketPath=$webSocketPath")
+        }
+    }
+
 
     override fun onMessageResponseServer(msg: String, uniqueId: String) {
 

@@ -28,12 +28,12 @@ object NettyServer {
     private lateinit var bossGroup: EventLoopGroup
     private lateinit var workerGroup: EventLoopGroup
 
-    private var port = 8888
+    var port = 8888
         set(value)  {
             field = value
         }
 
-    private var webSocketPath = "/ws"
+    var webSocketPath = "/ws"
         set(value)  {
             field = value
         }
