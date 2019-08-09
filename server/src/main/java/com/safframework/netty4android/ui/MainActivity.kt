@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
 
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
 
                 val clientChanel = spinnerAdapter.getItem(position)
@@ -81,8 +82,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
 
             override fun onNothingSelected(parent: AdapterView<*>) {
 
-                NettyServer.selectorChannel(null)
                 Toast.makeText(this@MainActivity, "onNothingSelected", Toast.LENGTH_LONG).show()
+                NettyServer.selectorChannel(null)
             }
         }
     }
@@ -158,6 +159,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
     private fun configServer() {
 
         val intent = Intent(this@MainActivity,ConfigServerActivity::class.java)
+        intent.putExtra("port",port)
+        intent.putExtra("webSocketPath",webSocketPath)
         startActivityForResult(intent,REQUEST_CODE_CONFIG)
     }
 
