@@ -26,7 +26,7 @@ class MessageAdapter : RecyclerView.Adapter<MessageAdapter.ItemHolder>() {
     val dataList: MutableList<MessageBean> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        return ItemHolder(LayoutInflater.from(parent.context).inflate(R.layout.log_item, parent, false))
+        return ItemHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_message, parent, false))
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {

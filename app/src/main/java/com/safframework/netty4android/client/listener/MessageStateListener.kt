@@ -9,5 +9,6 @@ package com.safframework.netty4android.client.listener
  * @version: V1.0 <描述当前版本功能>
  */
 interface MessageStateListener {
+
     fun isSendSuccss(isSuccess: Boolean)
 }
