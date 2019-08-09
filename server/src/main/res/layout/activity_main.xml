@@ -66,7 +66,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
-                    android:text="SEND" />
+                    android:text="send message"
+                    android:textAllCaps="false" />
             </LinearLayout>
 
             <LinearLayout
@@ -80,7 +81,7 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:gravity="top"
-                    android:hint="输入要发送的Web Socket"
+                    android:hint="输入要发送的Web Socket消息"
                     android:maxLines="100"
                     android:padding="5dp" />
 
@@ -89,7 +90,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
-                    android:text="SEND" />
+                    android:text="send message"
+                    android:textAllCaps="false"
+                    />
             </LinearLayout>
 
 
@@ -99,14 +102,22 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/configServer"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="configServer"
+                    android:textAllCaps="false" />
+
+                <Button
                     android:id="@+id/startServer"
                     style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="startServer"
-                    android:textAllCaps="false"
-                    android:textStyle="bold" />
+                    android:textAllCaps="false" />
 
                 <Button
                     android:id="@+id/clear_log"
@@ -114,8 +125,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="CLEAR_LOG"
-                    android:textStyle="bold" />
+                    android:text="clear"
+                    android:textAllCaps="false" />
 
             </LinearLayout>
 
