@@ -144,10 +144,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 if (statusCode == ConnectState.STATUS_CONNECT_SUCCESS) {
-                    Log.e(TAG, "STATUS_CONNECT_SUCCESS:");
+                    Log.d(TAG, "STATUS_CONNECT_SUCCESS:");
                     mConnect.setText("DisConnect:" + index);
                 } else {
-                    Log.e(TAG, "onServiceStatusConnectChanged:" + statusCode);
+                    Log.d(TAG, "onServiceStatusConnectChanged:" + statusCode);
                     mConnect.setText("Connect:" + index);
                 }
             }
@@ -155,8 +155,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void msgSend(String log) {
-        MessageBean messageBean = new MessageBean(System.currentTimeMillis(), log);
+    private void msgSend(String message) {
+        MessageBean messageBean = new MessageBean(System.currentTimeMillis(), message);
         mSendMessageAdapter.getDataList().add(0, messageBean);
         runOnUiThread(new Runnable() {
             @Override
@@ -167,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void msgReceive(String log) {
-        MessageBean messageBean = new MessageBean(System.currentTimeMillis(), log);
+    private void msgReceive(String message) {
+        MessageBean messageBean = new MessageBean(System.currentTimeMillis(), message);
         mReceMessageAdapter.getDataList().add(0, messageBean);
         runOnUiThread(new Runnable() {
             @Override
