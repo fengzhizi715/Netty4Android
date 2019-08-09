@@ -19,9 +19,9 @@ import java.net.InetSocketAddress
  * @date: 2019-08-05 18:04
  * @version: V1.0 <描述当前版本功能>
  */
-object NettyTcpServer {
+object NettyServer {
 
-    private val TAG = "NettyTcpServer"
+    private val TAG = "NettyServer"
 
     private var channel: Channel?=null
     private lateinit var listener: NettyServerListener<String>
@@ -29,6 +29,11 @@ object NettyTcpServer {
     private lateinit var workerGroup: EventLoopGroup
 
     private var port = 8888
+        set(value)  {
+            field = value
+        }
+
+    private var webSocketPath = "/ws"
         set(value)  {
             field = value
         }
@@ -50,11 +55,11 @@ object NettyTcpServer {
                             .childOption(ChannelOption.SO_KEEPALIVE, true)
                             .childOption(ChannelOption.SO_REUSEADDR, true)
                             .childOption(ChannelOption.TCP_NODELAY, true)
-                            .childHandler(NettyServerInitializer(listener))
+                            .childHandler(NettyServerInitializer(listener,webSocketPath))
 
                     // Bind and start to accept incoming connections.
                     val f = b.bind().sync()
-                    Log.i(TAG, NettyTcpServer::class.java.name + " started and listen on " + f.channel().localAddress())
+                    Log.i(TAG, NettyServer::class.java.name + " started and listen on " + f.channel().localAddress())
 
                     isServerStart = true
                     listener.onStartServer()

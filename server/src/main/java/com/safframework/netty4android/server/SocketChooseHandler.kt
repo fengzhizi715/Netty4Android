@@ -13,13 +13,13 @@ import io.netty.handler.codec.ByteToMessageDecoder
  * @version: V1.0 <描述当前版本功能>
  */
 
-class SocketChooseHandler : ByteToMessageDecoder() {
+class SocketChooseHandler(val webSocketPath:String) : ByteToMessageDecoder() {
 
     @Throws(Exception::class)
     override fun decode(ctx: ChannelHandlerContext, `in`: ByteBuf, out: List<Any>) {
         val protocol = getBufStart(`in`)
         if (protocol.startsWith(WEBSOCKET_PREFIX)) {
-            PipelineAdd.websocketAdd(ctx)
+            PipelineAdd.websocketAdd(ctx,webSocketPath)
 
             ctx.pipeline().remove("string_encoder")
             ctx.pipeline().remove("linebased")

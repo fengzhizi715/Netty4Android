@@ -16,7 +16,7 @@ import io.netty.util.CharsetUtil
  * @date: 2019-08-06 15:51
  * @version: V1.0 <描述当前版本功能>
  */
-class NettyServerInitializer(var mListener: NettyServerListener<String>) : ChannelInitializer<SocketChannel>() {
+class NettyServerInitializer(private val mListener: NettyServerListener<String>,private val webSocketPath:String) : ChannelInitializer<SocketChannel>() {
 
     @Throws(Exception::class)
     public override fun initChannel(ch: SocketChannel) {
@@ -24,7 +24,7 @@ class NettyServerInitializer(var mListener: NettyServerListener<String>) : Chann
         val pipeline = ch.pipeline()
 
         pipeline.addLast("active",ChannelActiveHandler(mListener))
-        pipeline.addLast("socketChoose", SocketChooseHandler())
+        pipeline.addLast("socketChoose", SocketChooseHandler(webSocketPath))
 
         pipeline.addLast("string_encoder",StringEncoder(CharsetUtil.UTF_8))
         pipeline.addLast("linebased",LineBasedFrameDecoder(1024))

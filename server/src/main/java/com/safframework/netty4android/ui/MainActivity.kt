@@ -19,8 +19,8 @@ import android.widget.AdapterView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import com.safframework.netty4android.R
+import com.safframework.netty4android.server.NettyServer
 import com.safframework.netty4android.server.NettyServerListener
-import com.safframework.netty4android.server.NettyTcpServer
 import com.safframework.netty4android.server.domain.ClientChanel
 import com.safframework.netty4android.server.domain.MessageBean
 import com.safframework.netty4android.ui.adapter.CustomSpinnerAdapter
@@ -69,12 +69,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
 
                 val clientChanel = spinnerAdapter.getItem(position)
                 Toast.makeText(this@MainActivity, "onItemSelected:" + clientChanel.clientIp, Toast.LENGTH_LONG).show()
-                NettyTcpServer.selectorChannel(clientChanel.channel)
+                NettyServer.selectorChannel(clientChanel.channel)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
 
-                NettyTcpServer.selectorChannel(null)
+                NettyServer.selectorChannel(null)
                 Toast.makeText(this@MainActivity, "onNothingSelected", Toast.LENGTH_LONG).show()
             }
         }
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
 
             R.id.startServer -> startServer()
 
-            R.id.send_tcp_btn -> if (!NettyTcpServer.isServerStart) {
+            R.id.send_tcp_btn -> if (!NettyServer.isServerStart) {
 
                 Toast.makeText(applicationContext, "未连接,请先连接", LENGTH_SHORT).show()
             } else {
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
                     return
                 }
 
-                NettyTcpServer.sendMsgToClient(msg, ChannelFutureListener { channelFuture ->
+                NettyServer.sendMsgToClient(msg, ChannelFutureListener { channelFuture ->
 
                     if (channelFuture.isSuccess) {
                         Log.d(TAG, "Write auth successful")
@@ -109,9 +109,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
 
             R.id.send_ws_btn -> {
 
-                Log.i(TAG,"000000000")
-
-                if (!NettyTcpServer.isServerStart) {
+                if (!NettyServer.isServerStart) {
 
                     Toast.makeText(applicationContext, "未连接,请先连接", LENGTH_SHORT).show()
                 } else {
@@ -123,7 +121,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
 
                     Log.i(TAG,msg)
 
-                    NettyTcpServer.sendMsgToWS(msg, ChannelFutureListener { channelFuture ->
+                    NettyServer.sendMsgToWS(msg, ChannelFutureListener { channelFuture ->
 
                         if (channelFuture.isSuccess) {
                             Log.d(TAG, "Write auth successful")
@@ -147,11 +145,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
 
     private fun startServer() {
 
-        if (!NettyTcpServer.isServerStart) {
-            NettyTcpServer.setListener(this@MainActivity)
-            NettyTcpServer.start()
+        if (!NettyServer.isServerStart) {
+            NettyServer.setListener(this@MainActivity)
+            NettyServer.start()
         } else {
-            NettyTcpServer.disconnect()
+            NettyServer.disconnect()
         }
     }
 
