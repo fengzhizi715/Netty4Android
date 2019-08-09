@@ -79,7 +79,7 @@ class NettyTcpClient private constructor(val host: String, val tcp_port: Int, va
             return
         }
 
-        val clientThread = object : Thread("client-Netty") {
+        val clientThread = object : Thread("Netty-Client") {
             override fun run() {
                 super.run()
                 isNeedReconnect = true
@@ -112,6 +112,7 @@ class NettyTcpClient private constructor(val host: String, val tcp_port: Int, va
                                 if (isSendheartBeat) {
                                     ch.pipeline().addLast("ping", IdleStateHandler(0, heartBeatInterval, 0, TimeUnit.SECONDS)) //5s未发送数据，回调userEventTriggered
                                 }
+
                                 ch.pipeline().addLast(StringEncoder(CharsetUtil.UTF_8))
                                 ch.pipeline().addLast(StringDecoder(CharsetUtil.UTF_8))
                                 ch.pipeline().addLast(LineBasedFrameDecoder(1024))//黏包处理,需要客户端、服务端配合
@@ -122,12 +123,12 @@ class NettyTcpClient private constructor(val host: String, val tcp_port: Int, va
                 try {
                     channelFuture = bootstrap.connect(host, tcp_port).addListener {
                         if (it.isSuccess) {
-                            Log.e(TAG, "连接成功")
+                            Log.d(TAG, "连接成功")
                             reconnectNum = maxConnectTimes
                             connectStatus = true
                             channel = channelFuture?.channel()
                         } else {
-                            Log.e(TAG, "连接失败")
+                            Log.d(TAG, "连接失败")
                             connectStatus = false
                         }
                         isConnecting = false
@@ -135,7 +136,7 @@ class NettyTcpClient private constructor(val host: String, val tcp_port: Int, va
 
                     // Wait until the connection is closed.
                     channelFuture.channel().closeFuture().sync()
-                    Log.e(TAG, " 断开连接")
+                    Log.d(TAG, " 断开连接")
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {
@@ -156,13 +157,13 @@ class NettyTcpClient private constructor(val host: String, val tcp_port: Int, va
 
 
     fun disconnect() {
-        Log.e(TAG, "disconnect")
+        Log.d(TAG, "disconnect")
         isNeedReconnect = false
         group.shutdownGracefully()
     }
 
     fun reconnect() {
-        Log.e(TAG, "reconnect")
+        Log.d(TAG, "reconnect")
         if (isNeedReconnect && reconnectNum > 0 && !connectStatus) {
             reconnectNum--
             SystemClock.sleep(reconnectIntervalTime)
@@ -205,7 +206,7 @@ class NettyTcpClient private constructor(val host: String, val tcp_port: Int, va
 
         if (flag) {
 
-            val channelFuture = this.writeAndFlush(data + System.getProperty("line.separator")!!).awaitUninterruptibly()
+            val channelFuture = this.writeAndFlush(data + System.getProperty("line.separator")).awaitUninterruptibly()
             return channelFuture.isSuccess
         }
 
