@@ -13,13 +13,13 @@ import java.net.InetSocketAddress
 /**
  *
  * @FileName:
- *          com.safframework.netty4android.server.EchoServerHandler
+ *          com.safframework.netty4android.server.CustomerServerHandler
  * @author: Tony Shen
  * @date: 2019-08-05 19:00
  * @version: V1.0 <描述当前版本功能>
  */
 @ChannelHandler.Sharable
-class EchoServerHandler(private val mListener: NettyServerListener<String>) : SimpleChannelInboundHandler<Any>() {
+class CustomerServerHandler(private val mListener: NettyServerListener<String>) : SimpleChannelInboundHandler<Any>() {
 
     @Throws(Exception::class)
     override fun channelReadComplete(ctx: ChannelHandlerContext) {
@@ -42,13 +42,14 @@ class EchoServerHandler(private val mListener: NettyServerListener<String>) : Si
     @Throws(Exception::class)
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
 
-        if (msg is WebSocketFrame) {  // WebSocket消息处理
+        if (msg is WebSocketFrame) {  // 处理 WebSocket 消息
 
             val webSocketInfo = (msg as TextWebSocketFrame).text().trim { it <= ' ' }
+
             Log.d(TAG, "收到WebSocketSocket消息：$webSocketInfo")
 
             mListener.onMessageResponseServer(webSocketInfo , ctx.channel().id().asShortText())
-        } else if (msg is String){   // Socket消息处理
+        } else if (msg is String){   // 处理 Socket 消息
 
             Log.d(TAG, "收到socket消息：$msg")
 
@@ -73,6 +74,6 @@ class EchoServerHandler(private val mListener: NettyServerListener<String>) : Si
 
     companion object {
 
-        private val TAG = "EchoServerHandler"
+        private val TAG = "CustomerServerHandler"
     }
 }

@@ -29,6 +29,6 @@ class NettyServerInitializer(private val mListener: NettyServerListener<String>,
         pipeline.addLast("string_encoder",StringEncoder(CharsetUtil.UTF_8))
         pipeline.addLast("linebased",LineBasedFrameDecoder(1024))
         pipeline.addLast("string_decoder",StringDecoder(CharsetUtil.UTF_8))
-        pipeline.addLast("commonhandler", EchoServerHandler(mListener))
+        pipeline.addLast("commonhandler", CustomerServerHandler(mListener))
     }
 }
