@@ -1,11 +1,11 @@
-package com.safframework.netty4android.server.domain
+package com.safframework.netty4android.ui.domain
 
 import io.netty.channel.Channel
 
 /**
  *
  * @FileName:
- *          com.safframework.netty4android.server.domain.ClientChanel
+ *          com.safframework.netty4android.ui.domain.ClientChanel
  * @author: Tony Shen
  * @date: 2019-08-05 19:28
  * @version: V1.0 <描述当前版本功能>

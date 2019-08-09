@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.safframework.netty4android.server.domain.ClientChanel
+import com.safframework.netty4android.ui.domain.ClientChanel
 
 /**
  *

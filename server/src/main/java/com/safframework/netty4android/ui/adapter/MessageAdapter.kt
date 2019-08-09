@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.safframework.netty4android.R
-import com.safframework.netty4android.server.domain.MessageBean
+import com.safframework.netty4android.ui.domain.MessageBean
 
 /**
  *

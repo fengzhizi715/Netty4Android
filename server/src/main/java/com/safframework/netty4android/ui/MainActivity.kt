@@ -22,8 +22,8 @@ import android.widget.Toast.LENGTH_SHORT
 import com.safframework.netty4android.R
 import com.safframework.netty4android.server.NettyServer
 import com.safframework.netty4android.server.NettyServerListener
-import com.safframework.netty4android.server.domain.ClientChanel
-import com.safframework.netty4android.server.domain.MessageBean
+import com.safframework.netty4android.ui.domain.ClientChanel
+import com.safframework.netty4android.ui.domain.MessageBean
 import com.safframework.netty4android.ui.adapter.CustomSpinnerAdapter
 import com.safframework.netty4android.ui.adapter.MessageAdapter
 import io.netty.channel.Channel

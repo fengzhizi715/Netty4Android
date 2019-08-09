@@ -1,11 +1,11 @@
-package com.safframework.netty4android.server.domain
+package com.safframework.netty4android.ui.domain
 
 import java.text.SimpleDateFormat
 
 /**
  *
  * @FileName:
- *          com.safframework.netty4android.server.domain.MessageBean
+ *          com.safframework.netty4android.ui.domain.MessageBean
  * @author: Tony Shen
  * @date: 2019-08-05 19:39
  * @version: V1.0 <描述当前版本功能>
