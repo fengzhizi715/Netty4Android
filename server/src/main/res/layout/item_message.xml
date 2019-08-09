@@ -12,7 +12,7 @@
         android:textSize="13sp"/>
 
     <TextView
-        android:id="@+id/logtext"
+        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="--"

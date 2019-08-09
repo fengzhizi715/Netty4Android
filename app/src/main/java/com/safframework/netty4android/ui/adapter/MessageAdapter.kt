@@ -33,7 +33,7 @@ class MessageAdapter : RecyclerView.Adapter<MessageAdapter.ItemHolder>() {
         val bean = dataList[position]
 
         holder.mTime.text = bean.mTime
-        holder.mLog.text = bean.mMsg
+        holder.mMsg.text = bean.mMsg
 
         holder.itemView.setOnLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View): Boolean {
@@ -53,11 +53,11 @@ class MessageAdapter : RecyclerView.Adapter<MessageAdapter.ItemHolder>() {
 
     inner class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var mTime: TextView
-        var mLog: TextView
+        var mMsg: TextView
 
         init {
             mTime = itemView.findViewById(R.id.time)
-            mLog = itemView.findViewById(R.id.logtext)
+            mMsg = itemView.findViewById(R.id.message)
         }
     }
 }

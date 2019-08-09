@@ -32,7 +32,7 @@ class MessageAdapter : RecyclerView.Adapter<MessageAdapter.ItemHolder>() {
         val bean = dataList[position]
 
         holder.mTime.text = bean.mTime
-        holder.mLog.text = bean.mMsg
+        holder.mMsg.text = bean.mMsg
 
         holder.itemView.setOnLongClickListener(View.OnLongClickListener { v ->
             val cmb = v.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -48,11 +48,11 @@ class MessageAdapter : RecyclerView.Adapter<MessageAdapter.ItemHolder>() {
 
     inner class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var mTime: TextView
-        var mLog: TextView
+        var mMsg: TextView
 
         init {
             mTime = itemView.findViewById(R.id.time) as TextView
-            mLog = itemView.findViewById(R.id.logtext) as TextView
+            mMsg = itemView.findViewById(R.id.message) as TextView
         }
     }
 }
