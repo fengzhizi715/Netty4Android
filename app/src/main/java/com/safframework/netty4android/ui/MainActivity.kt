@@ -138,6 +138,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyClientListe
             ip = data.getStringExtra("ip")
 
             Log.i(TAG," ip=$ip, port=$port")
+
+            mNettyTcpClient = NettyTcpClient.Builder()
+                    .setHost(ip)                    //设置服务端地址
+                    .setTcpPort(port)               //设置服务端端口号
+                    .setMaxReconnectTimes(5)        //设置最大重连次数
+                    .setReconnectIntervalTime(5)    //设置重连间隔时间。单位：秒
+                    .setSendheartBeat(false)        //设置发送心跳
+                    .setHeartBeatInterval(5)        //设置心跳间隔时间。单位：秒
+                    .setHeartBeatData("I'm is HeartBeatData") //设置心跳数据，可以是String类型，也可以是byte[]，以后设置的为准
+                    .setIndex(0)                    //设置客户端标识.(因为可能存在多个tcp连接)
+                    .build()
+
+            mNettyTcpClient.setListener(this@MainActivity) //设置TCP监听
         }
     }
 
