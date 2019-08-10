@@ -1,5 +1,6 @@
 package com.safframework.netty4android.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -31,6 +32,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyClientListe
     private val mReceMessageAdapter = MessageAdapter()
     private lateinit var mNettyTcpClient: NettyTcpClient
 
+    private var ip:String = "10.184.16.77"
+    private var port:Int = 8888
+
+    private val REQUEST_CODE_CONFIG:Int = 1000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,14 +44,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyClientListe
         initView()
 
         mNettyTcpClient = NettyTcpClient.Builder()
-                .setHost("10.184.16.77")    //设置服务端地址
-                .setTcpPort(8888) //设置服务端端口号
-                .setMaxReconnectTimes(5)    //设置最大重连次数
+                .setHost(ip)                    //设置服务端地址
+                .setTcpPort(port)               //设置服务端端口号
+                .setMaxReconnectTimes(5)        //设置最大重连次数
                 .setReconnectIntervalTime(5)    //设置重连间隔时间。单位：秒
-                .setSendheartBeat(false) //设置发送心跳
-                .setHeartBeatInterval(5)    //设置心跳间隔时间。单位：秒
+                .setSendheartBeat(false)        //设置发送心跳
+                .setHeartBeatInterval(5)        //设置心跳间隔时间。单位：秒
                 .setHeartBeatData("I'm is HeartBeatData") //设置心跳数据，可以是String类型，也可以是byte[]，以后设置的为准
-                .setIndex(0)    //设置客户端标识.(因为可能存在多个tcp连接)
+                .setIndex(0)                    //设置客户端标识.(因为可能存在多个tcp连接)
                 .build()
 
         mNettyTcpClient.setListener(this@MainActivity) //设置TCP监听
@@ -53,25 +59,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyClientListe
 
     private fun findViews() {
 
+        configClient.setOnClickListener(this)
         connect.setOnClickListener(this)
         send_btn.setOnClickListener(this)
-        clear_log.setOnClickListener(this)
+        clear.setOnClickListener(this)
     }
 
     private fun initView() {
 
-        val manager1 = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        send_list.layoutManager = manager1
+        send_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         send_list.adapter = mSendMessageAdapter
 
-        val manager2 = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rece_list.layoutManager = manager2
+        rece_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rece_list.adapter = mReceMessageAdapter
     }
 
-
     override fun onClick(v: View) {
         when (v.id) {
+
+            R.id.configClient -> configClient()
 
             R.id.connect -> connect()
 
@@ -83,6 +89,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyClientListe
                 if (TextUtils.isEmpty(msg.trim { it <= ' ' })) {
                     return
                 }
+
                 mNettyTcpClient.sendMsgToServer(msg, object : MessageStateListener {
                     override fun isSendSuccss(isSuccess: Boolean) {
                         if (isSuccess) {
@@ -96,7 +103,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyClientListe
                 send_et.setText("")
             }
 
-            R.id.clear_log -> {
+            R.id.clear -> {
                 mReceMessageAdapter.dataList.clear()
                 mSendMessageAdapter.dataList.clear()
                 mReceMessageAdapter.notifyDataSetChanged()
@@ -105,12 +112,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyClientListe
         }
     }
 
+    private fun configClient() {
+
+        val intent = Intent(this@MainActivity,ConfigClientActivity::class.java)
+        intent.putExtra("ip",ip)
+        intent.putExtra("port",port)
+        startActivityForResult(intent,REQUEST_CODE_CONFIG)
+    }
+
     private fun connect() {
         Log.d(TAG, "connect")
         if (!mNettyTcpClient.connectStatus) {
             mNettyTcpClient.connect()//连接服务器
         } else {
             mNettyTcpClient.disconnect()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_CONFIG && data!=null) {
+
+            port = data.getStringExtra("port").toInt()
+            ip = data.getStringExtra("ip")
+
+            Log.i(TAG," ip=$ip, port=$port")
         }
     }
 
@@ -129,7 +156,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyClientListe
                 connect.text = "Connect:$index"
             }
         }
-
     }
 
     private fun msgSend(message: String) {
@@ -143,7 +169,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyClientListe
         val messageBean = MessageBean(System.currentTimeMillis(), message)
         mReceMessageAdapter.dataList.add(0, messageBean)
         runOnUiThread { mReceMessageAdapter.notifyDataSetChanged() }
-
     }
 
     fun disconnect(view: View) {

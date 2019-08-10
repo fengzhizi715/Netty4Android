@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
         startServer.setOnClickListener(this)
         send_tcp_btn.setOnClickListener(this)
         send_ws_btn.setOnClickListener(this)
-        clear_log.setOnClickListener(this)
+        clear.setOnClickListener(this)
 
         spinnerAdapter = CustomSpinnerAdapter(this, clientChanelArray)
 
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
                 }
             }
 
-            R.id.clear_log -> {
+            R.id.clear -> {
                 mReceMessageAdapter.dataList.clear()
                 mSendMessageAdapter.dataList.clear()
                 mReceMessageAdapter.notifyDataSetChanged()
@@ -187,7 +187,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
             Log.i(TAG,"port=$port, webSocketPath=$webSocketPath")
         }
     }
-
 
     override fun onMessageResponseServer(msg: String, uniqueId: String) {
 
