@@ -51,8 +51,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Connect"
-                    android:textStyle="bold" />
+                    android:text="connect"
+                    android:textAllCaps="false" />
 
                 <Button
                     android:id="@+id/clear_log"
@@ -60,8 +60,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="CLEAR_LOG"
-                    android:textStyle="bold" />
+                    android:text="clear"
+                    android:textAllCaps="false" />
 
                 <Button
                     style="?android:textAppearanceSmall"
@@ -70,7 +70,7 @@
                     android:layout_weight="1"
                     android:text="断开"
                     android:onClick="disconnect"
-                    android:textStyle="bold" />
+                    android:textAllCaps="false" />
 
             </LinearLayout>
 
@@ -94,7 +94,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
-                    android:text="SEND" />
+                    android:text="send"
+                    android:textAllCaps="false"/>
             </LinearLayout>
 
         </LinearLayout>
