@@ -124,7 +124,7 @@ object NettyServer {
         flag
     } ?: false
 
-    // 同步发送TCP消息
+    // 同步发送WebSocket消息
     fun sendMsgToWS(data: String) = channel?.run {
 
         if (this.isActive) {
