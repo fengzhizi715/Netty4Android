@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NettyServerListe
     private lateinit var spinnerAdapter: CustomSpinnerAdapter
 
     private var port:Int = 8888
-    private var webSocketPath:String = "/mta_inspection"
+    private var webSocketPath:String = "/ws"
 
     private val REQUEST_CODE_CONFIG:Int = 1000
 
