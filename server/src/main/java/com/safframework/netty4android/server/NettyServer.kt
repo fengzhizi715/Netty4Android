@@ -98,7 +98,11 @@ object NettyServer {
         }
 
         flag
-    } ?: false
+    } ?: run {
+
+        println("channel is null")
+        false
+    }
 
     // 同步发送TCP消息
     fun sendMsgToClient(data: String) = channel?.run {
@@ -109,10 +113,14 @@ object NettyServer {
         }
 
         false
-    } ?: false
+    } ?: run {
+
+        println("channel is null")
+        false
+    }
 
     // 异步发送WebSocket消息
-    fun sendMsgToWS(data: String,listener: ChannelFutureListener) = channel?.run {
+    fun sendMsgToWS(data: String, listener: ChannelFutureListener) = channel?.run {
 
         val flag = this.isActive
 
@@ -122,7 +130,11 @@ object NettyServer {
         }
 
         flag
-    } ?: false
+    } ?: run {
+
+        println("channel is null")
+        false
+    }
 
     // 同步发送WebSocket消息
     fun sendMsgToWS(data: String) = channel?.run {
@@ -133,7 +145,11 @@ object NettyServer {
         }
 
         false
-    } ?: false
+    } ?: run {
+
+        println("channel is null")
+        false
+    }
 
     /**
      * 切换通道
